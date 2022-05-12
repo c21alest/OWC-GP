@@ -13,7 +13,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @NonNull
     @Override
     public MainAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Skapar en ny view för list_items som används för att presentera innehåller i recycler view
+        // Skapar en ny view för list_items som används för att presentera innehållet i recycler viewn
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
         return new ViewHolder(view);
     }

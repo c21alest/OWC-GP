@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         myRecyclerView = findViewById(R.id.recycler_view);
         // Optimerings parameter
         myRecyclerView.setHasFixedSize(true);
+
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
         myAdapter = new MainAdapter();
