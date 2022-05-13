@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
-    private final String JSON_URL = "url";
-    private final String JSON_FILE = "file.json";
+    private final String JSON_URL = "https://mobprog.webug.se/json-api?login=c21alest";
 
     RecyclerView myRecyclerView;
     RecyclerView.Adapter myAdapter;
@@ -20,13 +20,15 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new JsonFile(this, this).execute(JSON_FILE);
+        new JsonTask(this).execute(JSON_URL);
 
     }
 
     @Override
     public void onPostExecute(String json) {
+        Log.d("==>", json);
 
+        /*
         // Skapar en recycler view instans
         myRecyclerView = findViewById(R.id.recycler_view);
         // Optimerings parameter
@@ -36,5 +38,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         myRecyclerView.setLayoutManager(myLayoutManager);
         myAdapter = new MainAdapter();
         myRecyclerView.setAdapter(myAdapter);
+
+         */
     }
 }

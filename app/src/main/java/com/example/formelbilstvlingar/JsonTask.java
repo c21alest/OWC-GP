@@ -1,6 +1,7 @@
 package com.example.formelbilstvlingar;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class JsonTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String json) {
+        Log.d("==>", "JsonTask OnPostExecute");
         listener.onPostExecute(json);
     }
 }
