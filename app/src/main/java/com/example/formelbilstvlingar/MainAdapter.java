@@ -44,12 +44,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
         // Hämtar varje element i array
         holder.textD.setText(Races.get(position).getID());
-        /*
-        String urlTrackImage = Races.get(6);
-        Log.d("==>", urlTrackImage);
-        Picasso.get().load(urlTrackImage).into(holder.trackOverview);
-
-         */
+        Picasso.get().load(Races.get(position).getAuxdata().getImg()).into(holder.trackOverview);
     }
 
     @Override
