@@ -10,6 +10,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     ArrayList<String> races;
     ArrayList<String> localTest;
+    List<gp> gpinfo;
 
     private gp[] gpInfo;
 
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         Gson gson = new Gson();
         gpInfo = gson.fromJson(json, gp[].class);
 
+        gpinfo = Arrays.asList(gpInfo);
+
         races = new ArrayList<>();
 
         /*
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         localTest.add("Rad 5");
          */
 
+        /*
         // Funktion som lägger till varje gson objekt i en array
         for (int i = 0; i < gpInfo.length; i++) {
             String id = gpInfo[i].getID();
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             races.add(ow21);
             races.add("\n");
         }
+         */
 
         // Skapar en recycler view instans
         myRecyclerView = findViewById(R.id.recycler_view);
@@ -81,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
-        myAdapter = new MainAdapter(races);
+        myAdapter = new MainAdapter(gpinfo);
         myRecyclerView.setAdapter(myAdapter);
 
     }
