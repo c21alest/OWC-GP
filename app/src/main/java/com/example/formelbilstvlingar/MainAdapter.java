@@ -24,6 +24,7 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     ImageView img;
+    String trackInfo;
 
     // Skapar array som kommer från main activity
     List<gp> Races;
@@ -43,8 +44,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
         // Hämtar varje element i array
-        holder.textD.setText(Races.get(position).getID());
-        Picasso.get().load(Races.get(position).getAuxdata().getImg()).into(holder.trackOverview);
+        holder.title.setText(Races.get(position).getGpName());
+        Picasso.get().load(Races.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
+        holder.trackName.setText(Races.get(position).getTrackName());
+        trackInfo = "Typ: " + Races.get(position).getTrackType();
+        trackInfo += " Längd: " + Races.get(position).getTrackLength() + " meter";
+        holder.trackInfo.setText(trackInfo);
+        holder.gpWinner.setText(Races.get(position).getAuxdata().getOw21());
     }
 
     @Override
@@ -54,14 +60,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textD;
+        public TextView title;
+        public TextView trackName;
+        public TextView trackInfo;
+        public TextView gpWinner;
         public ImageView trackOverview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Kopplar variabel mot id i en layout
-            textD = itemView.findViewById(R.id.display_text);
+            title = itemView.findViewById(R.id.title);
+            trackName = itemView.findViewById(R.id.track_name);
+            trackInfo = itemView.findViewById(R.id.track_info);
+            gpWinner = itemView.findViewById(R.id.winner_name);
             trackOverview = (ImageView) itemView.findViewById(R.id.track_overview);
         }
     }

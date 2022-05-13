@@ -6,12 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/display_text"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="Text att visa"
+        android:text="Titel för gp"
+        android:textSize="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,10 +20,60 @@
         android:id="@+id/track_overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="@id/title"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/track_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/track_overview"
+        app:layout_constraintLeft_toLeftOf="@id/track_overview"
+        android:text="Namn på bana" />
+
+    <TextView
+        android:id="@+id/baninfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"
+        app:layout_constraintTop_toBottomOf="@id/track_name"
+        app:layout_constraintLeft_toLeftOf="@id/track_name"
+        android:text="Baninfo:" />
+
+    <TextView
+        android:id="@+id/track_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintLeft_toRightOf="@id/baninfo"
+        app:layout_constraintTop_toTopOf="@id/baninfo"
+        android:text="Här visas baninfo" />
+
+    <TextView
+        android:id="@+id/winner_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/baninfo"
+        app:layout_constraintLeft_toLeftOf="@id/baninfo"
+        android:text="Vinnare 2021:" />
+
+    <TextView
+        android:id="@+id/winner_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintLeft_toRightOf="@id/winner_text"
+        app:layout_constraintTop_toTopOf="@id/winner_text"
+        android:text="Namn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
