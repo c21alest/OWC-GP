@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     RecyclerView myRecyclerView;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager myLayoutManager;
+
     ArrayList<String> races;
+    ArrayList<String> localTest;
 
     private gp[] gpInfo;
 
@@ -41,6 +43,14 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         races = new ArrayList<>();
 
+        // För test endast
+        localTest = new ArrayList<>();
+        localTest.add("Rad 1");
+        localTest.add("Rad 2");
+        localTest.add("Rad 3");
+        localTest.add("Rad 4");
+        localTest.add("Rad 5");
+
         // Funktion som lägger till varje gson objekt i en array
         for (int i = 0; i < gpInfo.length; i++) {
             String id = gpInfo[i].getId();
@@ -62,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             races.add("\n");
         }
 
-        /*
         // Skapar en recycler view instans
         myRecyclerView = findViewById(R.id.recycler_view);
         // Optimerings parameter
@@ -70,9 +79,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
-        myAdapter = new MainAdapter();
+        myAdapter = new MainAdapter(races);
         myRecyclerView.setAdapter(myAdapter);
 
-         */
     }
 }
