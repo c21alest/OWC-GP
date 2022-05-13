@@ -22,16 +22,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class gp {
     private String id;
-    @SerializedName("track_name")
-    private String name;
+    @SerializedName("name")
+    private String track_name;
     private String login;
-    @SerializedName("gp_name")
-    private String company;
+    @SerializedName("company")
+    private String gp_name;
     private String location;
-    @SerializedName("track_type")
-    private String category;
-    @SerializedName("track_length")
-    private int size;
+    @SerializedName("category")
+    private String track_type;
+    @SerializedName("size")
+    private int track_length;
     private int cost;
     private Auxdata auxdata;
 
@@ -39,28 +39,28 @@ public class gp {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTrackName() {
+        return track_name;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public String getCompany() {
-        return company;
+    public String getGpName() {
+        return gp_name;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public String getCategory() {
-        return category;
+    public String getTrackType() {
+        return track_type;
     }
 
-    public int getSize() {
-        return size;
+    public int getTrackLength() {
+        return track_length;
     }
 
     public int getCost() {
