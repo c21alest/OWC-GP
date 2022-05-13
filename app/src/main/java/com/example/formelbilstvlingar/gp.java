@@ -21,7 +21,7 @@ package com.example.formelbilstvlingar;
 import com.google.gson.annotations.SerializedName;
 
 public class gp {
-    private String id;
+    private String ID;
     @SerializedName("name")
     private String track_name;
     private String login;
@@ -35,8 +35,8 @@ public class gp {
     private int cost;
     private Auxdata auxdata;
 
-    public String getId() {
-        return id;
+    public String getID() {
+        return ID;
     }
 
     public String getTrackName() {

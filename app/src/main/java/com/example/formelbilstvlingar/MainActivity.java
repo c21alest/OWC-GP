@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         races = new ArrayList<>();
 
+        /*
         // För test endast
         localTest = new ArrayList<>();
         localTest.add("Rad 1");
@@ -50,10 +51,11 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         localTest.add("Rad 3");
         localTest.add("Rad 4");
         localTest.add("Rad 5");
+         */
 
         // Funktion som lägger till varje gson objekt i en array
         for (int i = 0; i < gpInfo.length; i++) {
-            String id = gpInfo[i].getId();
+            String id = gpInfo[i].getID();
             races.add(id);
             String name = gpInfo[i].getTrackName();
             races.add(name);
