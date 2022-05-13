@@ -10,4 +10,12 @@ package com.example.formelbilstvlingar;
 public class Auxdata {
     private String img;
     private String ow21;
+
+    public String getImg() {
+        return img;
+    }
+
+    public String getOw21() {
+        return ow21;
+    }
 }
