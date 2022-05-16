@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -98,5 +99,15 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     @Override
     public void onButtonClick(int position) {
         Log.d(TAG, "onButtonClick: " + gpinfo.get(position).getGpName());
+
+        Intent intent = new Intent(MainActivity.this, DetailedView.class);
+        intent.putExtra("gpName", gpinfo.get(position).getGpName());
+        intent.putExtra("trackName", gpinfo.get(position).getTrackName());
+        intent.putExtra("trackType", gpinfo.get(position).getTrackType());
+        intent.putExtra("trackLength", gpinfo.get(position).getTrackLength());
+        intent.putExtra("trackImage", gpinfo.get(position).getAuxdata().getImg());
+        intent.putExtra("driverName", gpinfo.get(position).getAuxdata().getOw21());
+
+        startActivity(intent);
     }
 }
