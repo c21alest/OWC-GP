@@ -77,22 +77,5 @@
         app:layout_constraintTop_toTopOf="@id/winner_text"
         android:text="Namn" />
 
-    <Button
-        android:id="@+id/readmore_driver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Om föraren"
-        app:layout_constraintLeft_toLeftOf="@id/winner_text"
-        app:layout_constraintTop_toBottomOf="@id/winner_text" />
-
-    <Button
-        android:id="@+id/readmore_track"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Om banan"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintLeft_toRightOf="@id/readmore_driver"
-        app:layout_constraintTop_toTopOf="@id/readmore_driver" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

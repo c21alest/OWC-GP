@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/gp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GP Name"
+        android:layout_marginTop="40dp"
+        android:textSize="25dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/track_overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="181dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/gp_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/track_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/track_overview"
+        app:layout_constraintLeft_toLeftOf="@id/track_overview"
+        android:text="Namn på bana" />
+
+    <TextView
+        android:id="@+id/track_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"
+        app:layout_constraintTop_toBottomOf="@id/track_name"
+        app:layout_constraintLeft_toLeftOf="@id/track_name"
+        android:text="Banlängd" />
+
+    <TextView
+        android:id="@+id/track_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"
+        app:layout_constraintTop_toBottomOf="@id/track_length"
+        app:layout_constraintLeft_toLeftOf="@id/track_length"
+        android:text="Bantyp" />
+
+    <TextView
+        android:id="@+id/max_crowd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"
+        app:layout_constraintTop_toBottomOf="@id/track_type"
+        app:layout_constraintLeft_toLeftOf="@id/track_type"
+        android:text="Max läktarplatser" />
+
+    <TextView
+        android:id="@+id/driver_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Förarnamn"
+        android:layout_marginTop="40dp"
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@id/max_crowd"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/driver_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="181dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/driver_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/driver_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/driver_image"
+        app:layout_constraintLeft_toLeftOf="@id/driver_image"
+        android:text="Ålder på föraren" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

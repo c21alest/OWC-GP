@@ -97,6 +97,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     @Override
     public void onButtonClick(int position) {
-        Log.d(TAG, "onButtonClick: Detected!");
+        Log.d(TAG, "onButtonClick: " + gpinfo.get(position).getGpName());
     }
 }

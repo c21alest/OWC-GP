@@ -68,7 +68,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         public TextView trackInfo;
         public TextView gpWinner;
         public ImageView trackOverview;
-        private Button aboutDriver;
         OnButtonListner onButtonListner;
 
         public ViewHolder(@NonNull View itemView, OnButtonListner onButtonListner) {
@@ -81,8 +80,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             gpWinner = itemView.findViewById(R.id.winner_name);
             trackOverview = (ImageView) itemView.findViewById(R.id.track_overview);
             this.onButtonListner = onButtonListner;
-
-            aboutDriver = itemView.findViewById(R.id.readmore_driver);
 
             itemView.setOnClickListener(this);
         }
