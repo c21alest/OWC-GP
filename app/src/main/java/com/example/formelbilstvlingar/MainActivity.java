@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
+public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener, MainAdapter.OnButtonListner {
 
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=c21alest";
+
+    private static final String TAG = "==>";
 
     RecyclerView myRecyclerView;
     RecyclerView.Adapter myAdapter;
@@ -88,8 +90,13 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
-        myAdapter = new MainAdapter(gpinfo);
+        myAdapter = new MainAdapter(gpinfo, this);
         myRecyclerView.setAdapter(myAdapter);
 
+    }
+
+    @Override
+    public void onButtonClick(int position) {
+        Log.d(TAG, "onButtonClick: Detected!");
     }
 }

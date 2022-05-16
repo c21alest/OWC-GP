@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,11 +26,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     ImageView img;
     String trackInfo;
+    private OnButtonListner myoOnButtonListner;
 
     // Skapar array som kommer från main activity
     List<gp> Races;
-    public MainAdapter(List<gp> races) {
+    public MainAdapter(List<gp> races, OnButtonListner onButtonListner) {
         Races = races;
+        this.myoOnButtonListner = onButtonListner;
         Log.d("ArrayList: ", Arrays.deepToString(Races.toArray()));
     }
 
@@ -38,7 +41,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public MainAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Skapar en ny view för list_items som används för att presentera innehållet i recycler viewn
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, myoOnButtonListner);
     }
 
     @Override
@@ -58,15 +61,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         return Races.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView title;
         public TextView trackName;
         public TextView trackInfo;
         public TextView gpWinner;
         public ImageView trackOverview;
+        private Button aboutDriver;
+        OnButtonListner onButtonListner;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnButtonListner onButtonListner) {
             super(itemView);
 
             // Kopplar variabel mot id i en layout
@@ -75,6 +80,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             trackInfo = itemView.findViewById(R.id.track_info);
             gpWinner = itemView.findViewById(R.id.winner_name);
             trackOverview = (ImageView) itemView.findViewById(R.id.track_overview);
+            this.onButtonListner = onButtonListner;
+
+            aboutDriver = itemView.findViewById(R.id.readmore_driver);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onButtonListner.onButtonClick(getAbsoluteAdapterPosition());
+        }
+    }
+    public interface OnButtonListner{
+        void onButtonClick(int position);
     }
 }
