@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 
@@ -37,6 +40,26 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         new JsonTask(this).execute(JSON_URL);
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Visar menyalternativ i menyn
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // När Ändra text väljs i menyn skapas en ny intent
+            case R.id.about:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
