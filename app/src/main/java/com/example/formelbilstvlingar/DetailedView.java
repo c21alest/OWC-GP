@@ -51,13 +51,13 @@ public class DetailedView extends AppCompatActivity {
             String driverNatS = extras.getString("driverNat");
 
             gpName.setText(gpNameS);
-            Picasso.get().load(trackImageS).resize(0, 400).into(trackImage);
+            Picasso.get().load(trackImageS).fit().centerInside().into(trackImage);
             trackName.setText(trackNameS);
             trackType.setText("Bantyp: " + trackTypeS);
             trackLength.setText("Banlängd: " + trackLengthS);
 
             driverName.setText("P1: " + driverNameS);
-            Picasso.get().load(driverImageS).resize(0, 500).into(driverImage);
+            Picasso.get().load(driverImageS).fit().centerInside().into(driverImage);
             driverAge.setText("Ålder: " + driverAgeS);
             driverNat.setText("Nationalitet: " + driverNatS);
         }
