@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="30dp">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -12,8 +18,8 @@
         android:text="GP Name"
         android:layout_marginTop="40dp"
         android:textSize="25dp"
+        android:layout_marginLeft="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
@@ -59,24 +65,14 @@
         android:text="Bantyp" />
 
     <TextView
-        android:id="@+id/max_crowd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="18dp"
-        app:layout_constraintTop_toBottomOf="@id/track_type"
-        app:layout_constraintLeft_toLeftOf="@id/track_type"
-        android:text="Max läktarplatser" />
-
-    <TextView
         android:id="@+id/driver_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Förarnamn"
         android:layout_marginTop="40dp"
         android:textSize="25dp"
-        app:layout_constraintTop_toBottomOf="@id/max_crowd"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintTop_toBottomOf="@id/track_type"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageView
@@ -101,4 +97,16 @@
         app:layout_constraintLeft_toLeftOf="@id/driver_image"
         android:text="Ålder på föraren" />
 
+    <TextView
+        android:id="@+id/driver_nat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/driver_age"
+        app:layout_constraintLeft_toLeftOf="@id/driver_age"
+        android:text="Nationalitet på föraren" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

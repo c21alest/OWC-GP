@@ -101,12 +101,19 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         Log.d(TAG, "onButtonClick: " + gpinfo.get(position).getGpName());
 
         Intent intent = new Intent(MainActivity.this, DetailedView.class);
+
+        String driverAge = String.valueOf(gpinfo.get(position).getAuxdata().getAge());
+        String trackLength = String.valueOf(gpinfo.get(position).getTrackLength());
+
         intent.putExtra("gpName", gpinfo.get(position).getGpName());
         intent.putExtra("trackName", gpinfo.get(position).getTrackName());
         intent.putExtra("trackType", gpinfo.get(position).getTrackType());
-        intent.putExtra("trackLength", gpinfo.get(position).getTrackLength());
+        intent.putExtra("trackLength", trackLength);
         intent.putExtra("trackImage", gpinfo.get(position).getAuxdata().getImg());
         intent.putExtra("driverName", gpinfo.get(position).getAuxdata().getOw21());
+        intent.putExtra("driverImage", gpinfo.get(position).getAuxdata().getDimg());
+        intent.putExtra("driverAge", driverAge);
+        intent.putExtra("driverNat", gpinfo.get(position).getAuxdata().getNat());
 
         startActivity(intent);
     }

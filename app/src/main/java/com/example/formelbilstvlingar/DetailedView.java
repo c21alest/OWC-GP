@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.Picasso;
+
 public class DetailedView extends AppCompatActivity {
 
     TextView gpName;
@@ -14,11 +16,11 @@ public class DetailedView extends AppCompatActivity {
     TextView trackName;
     TextView trackLength;
     TextView trackType;
-    TextView maxCrowd;
 
     TextView driverName;
     ImageView driverImage;
     TextView driverAge;
+    TextView driverNat;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,11 +32,11 @@ public class DetailedView extends AppCompatActivity {
         trackName = findViewById(R.id.track_name);
         trackLength = findViewById(R.id.track_length);
         trackType = findViewById(R.id.track_type);
-        maxCrowd = findViewById(R.id.max_crowd);
 
         driverName = findViewById(R.id.driver_name);
         driverImage = findViewById(R.id.driver_image);
         driverAge = findViewById(R.id.driver_age);
+        driverNat = findViewById(R.id.driver_nat);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -44,13 +46,20 @@ public class DetailedView extends AppCompatActivity {
             String trackLengthS = extras.getString("trackLength");
             String trackImageS = extras.getString("trackImage");
             String driverNameS = extras.getString("driverName");
+            String driverImageS = extras.getString("driverImage");
+            String driverAgeS = extras.getString("driverAge");
+            String driverNatS = extras.getString("driverNat");
 
             gpName.setText(gpNameS);
+            Picasso.get().load(trackImageS).resize(0, 400).into(trackImage);
+            trackName.setText(trackNameS);
+            trackType.setText("Bantyp: " + trackTypeS);
+            trackLength.setText("Banlängd: " + trackLengthS);
 
-            trackType.setText(trackTypeS);
-            trackLength.setText(trackLengthS);
-
-            driverName.setText(driverNameS);
+            driverName.setText("P1: " + driverNameS);
+            Picasso.get().load(driverImageS).resize(0, 500).into(driverImage);
+            driverAge.setText("Ålder: " + driverAgeS);
+            driverNat.setText("Nationalitet: " + driverNatS);
         }
     }
 }
