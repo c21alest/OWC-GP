@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,13 +38,57 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     private gp[] gpInfo;
 
+    String sort;
+    int newPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new JsonTask(this).execute(JSON_URL);
+        Spinner dropdown = findViewById(R.id.sort);
+        String[] dropdownList = new String[]{"Alla", "Ovalbana", "Stadsbana", "Racebana"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropdownList);
+        dropdown.setAdapter(adapter);
 
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        Toast.makeText(parent.getContext(), "Visar alla", Toast.LENGTH_SHORT).show();
+                        sort = null;
+                        changeReyclerView();
+                        break;
+                    case 1:
+                        Toast.makeText(parent.getContext(), "Visar endast Ovalbanor", Toast.LENGTH_SHORT).show();
+                        sort = "oval";
+                        changeReyclerView();
+                        break;
+                    case 2:
+                        Toast.makeText(parent.getContext(), "Visar endast Stadsbanor", Toast.LENGTH_SHORT).show();
+                        sort = "stadsbana";
+                        changeReyclerView();
+                        break;
+                    case 3:
+                        Toast.makeText(parent.getContext(), "Visar endast Racebanor", Toast.LENGTH_SHORT).show();
+                        sort = "racebana";
+                        changeReyclerView();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                // sometimes you need nothing here
+            }
+        });
+    }
+
+    private void changeReyclerView() {
+        new JsonTask(this).execute(JSON_URL);
     }
 
     public boolean onCreateOptionsMenu(Menu menu)
@@ -55,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         switch (item.getItemId()) {
             // När Ändra text väljs i menyn skapas en ny intent
             case R.id.about:
-
+                Intent intentWeb = new Intent(MainActivity.this, WebView.class);
+                startActivity(intentWeb);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -71,6 +121,19 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         gpInfo = gson.fromJson(json, gp[].class);
 
         gpinfo = Arrays.asList(gpInfo);
+
+        Log.d(TAG, "onPostExecute: " + sort);
+
+        /*
+        if (sort != null) {
+            for (int i = 1; i < gpinfo.size(); i++) {
+                if (gpinfo.get(i).getTrackType() != sort) {
+                    gpinfo.remove(i);
+                }
+            }
+        }
+
+         */
 
         races = new ArrayList<>();
 
@@ -114,29 +177,41 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
-        myAdapter = new MainAdapter(gpinfo, this);
+        myAdapter = new MainAdapter(gpinfo, this, sort);
         myRecyclerView.setAdapter(myAdapter);
 
     }
 
     @Override
-    public void onButtonClick(int position) {
+    public void onButtonClick(int position, ArrayList<String> howMany) {
         Log.d(TAG, "onButtonClick: " + gpinfo.get(position).getGpName());
+        Log.d(TAG, "onButtonClick: " + howMany);
+        Log.d(TAG, "onButtonClick: " + position);
+
+        String Target = howMany.get(position);
+
+        Log.d(TAG, "onButtonClick: Target: " + Target);
+
+        for (int i = 0; i < gpinfo.size(); i++) {
+            if (gpinfo.get(i).getID() == Target) {
+                newPosition = i;
+            }
+        }
 
         Intent intent = new Intent(MainActivity.this, DetailedView.class);
 
-        String driverAge = String.valueOf(gpinfo.get(position).getAuxdata().getAge());
-        String trackLength = String.valueOf(gpinfo.get(position).getTrackLength());
+        String driverAge = String.valueOf(gpinfo.get(newPosition).getAuxdata().getAge());
+        String trackLength = String.valueOf(gpinfo.get(newPosition).getTrackLength());
 
-        intent.putExtra("gpName", gpinfo.get(position).getGpName());
-        intent.putExtra("trackName", gpinfo.get(position).getTrackName());
-        intent.putExtra("trackType", gpinfo.get(position).getTrackType());
+        intent.putExtra("gpName", gpinfo.get(newPosition).getGpName());
+        intent.putExtra("trackName", gpinfo.get(newPosition).getTrackName());
+        intent.putExtra("trackType", gpinfo.get(newPosition).getTrackType());
         intent.putExtra("trackLength", trackLength);
-        intent.putExtra("trackImage", gpinfo.get(position).getAuxdata().getImg());
-        intent.putExtra("driverName", gpinfo.get(position).getAuxdata().getOw21());
-        intent.putExtra("driverImage", gpinfo.get(position).getAuxdata().getDimg());
+        intent.putExtra("trackImage", gpinfo.get(newPosition).getAuxdata().getImg());
+        intent.putExtra("driverName", gpinfo.get(newPosition).getAuxdata().getOw21());
+        intent.putExtra("driverImage", gpinfo.get(newPosition).getAuxdata().getDimg());
         intent.putExtra("driverAge", driverAge);
-        intent.putExtra("driverNat", gpinfo.get(position).getAuxdata().getNat());
+        intent.putExtra("driverNat", gpinfo.get(newPosition).getAuxdata().getNat());
 
         startActivity(intent);
     }

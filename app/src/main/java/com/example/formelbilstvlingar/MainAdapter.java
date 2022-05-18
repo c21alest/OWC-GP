@@ -21,19 +21,53 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     ImageView img;
     String trackInfo;
+    String sortItems;
+    Boolean showItem;
     private OnButtonListner myoOnButtonListner;
+
+    private static final String TAG = "==>";
 
     // Skapar array som kommer från main activity
     List<gp> Races;
-    public MainAdapter(List<gp> races, OnButtonListner onButtonListner) {
+    List<gp> RacesSorted;
+    ArrayList<String> Choosen;
+    public MainAdapter(List<gp> races, OnButtonListner onButtonListner, String sort) {
         Races = races;
+        sortItems = sort;
+        RacesSorted = new ArrayList<>(Races);
+        Choosen = new ArrayList<>();
+
+        // Raderar de värden som inte ska visas utifrån dropdown filter
+        int indexToDelete = 0;
+        for (int i = 0; i < Races.size(); i++) {
+            // Kollar typen på banan i varje index
+            String trackType = Races.get(i).getTrackType();
+
+            // Om bantyp ska visas i filter ökas indexToDelete för att den inte ska radera denna
+            if (Objects.equals(trackType, sortItems)) {
+                indexToDelete++;
+                Log.d(TAG, "MainAdapter: " + trackType);
+                Choosen.add(Races.get(i).getID());
+                showItem = true;
+            }
+            // Om sortItems är null betyder det att filtret ska visa allt
+            else if (sortItems == null) {
+                Choosen.add(Races.get(i).getID());
+                showItem = true;
+            }
+            // Om inte bantypen stämde överens med filter tas den bort
+            else {
+                // Kan inte radera i (for loop) eftersom RacesSorted alltid kommer minskas i storlek!
+                RacesSorted.remove(indexToDelete);
+            }
+        }
         this.myoOnButtonListner = onButtonListner;
-        Log.d("ArrayList: ", Arrays.deepToString(Races.toArray()));
     }
 
     @NonNull
@@ -46,19 +80,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
-        // Hämtar varje element i array
-        holder.title.setText(Races.get(position).getGpName());
-        Picasso.get().load(Races.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
-        holder.trackName.setText(Races.get(position).getTrackName());
-        trackInfo = "Typ: " + Races.get(position).getTrackType();
-        trackInfo += " Längd: " + Races.get(position).getTrackLength() + " meter";
+        holder.title.setText(RacesSorted.get(position).getGpName());
+        Picasso.get().load(RacesSorted.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
+        holder.trackName.setText(RacesSorted.get(position).getTrackName());
+        trackInfo = "Typ: " + RacesSorted.get(position).getTrackType();
+        trackInfo += " Längd: " + RacesSorted.get(position).getTrackLength() + " meter";
         holder.trackInfo.setText(trackInfo);
-        holder.gpWinner.setText(Races.get(position).getAuxdata().getOw21());
+        holder.gpWinner.setText(RacesSorted.get(position).getAuxdata().getOw21());
+
     }
 
     @Override
     public int getItemCount() {
-        return Races.size();
+        return RacesSorted.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -86,10 +120,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            onButtonListner.onButtonClick(getAbsoluteAdapterPosition());
+            onButtonListner.onButtonClick(getAbsoluteAdapterPosition(), Choosen);
         }
     }
     public interface OnButtonListner{
-        void onButtonClick(int position);
+        void onButtonClick(int position, ArrayList<String> howMany);
     }
 }
