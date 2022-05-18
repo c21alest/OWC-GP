@@ -2,7 +2,7 @@
 Välkommen till formelbilstävlingar appen! Denna app är skapad av Alexander Ström
 och har i uppgift att dela information om just olika formelbilstävlingar. Denna app
 passar dig som gillar motorsport och alltid vill ha en app för att uppdatera dig om de senaste tävlingarna och dess resultat.
-Men den passar också dig som vill lära dig mer om formelbilar, om det så är Formel1 eller indycar.
+Men den passar också dig som vill lära dig mer om formelbilar.
 
 
 ## Förstasidan
