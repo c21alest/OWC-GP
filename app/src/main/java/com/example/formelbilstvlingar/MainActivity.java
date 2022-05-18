@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -59,32 +60,48 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                     case 0:
                         Toast.makeText(parent.getContext(), "Visar alla", Toast.LENGTH_SHORT).show();
                         sort = null;
+                        saveSpinnerState();
                         changeReyclerView();
                         break;
                     case 1:
                         Toast.makeText(parent.getContext(), "Visar endast Ovalbanor", Toast.LENGTH_SHORT).show();
                         sort = "oval";
+                        saveSpinnerState();
                         changeReyclerView();
                         break;
                     case 2:
                         Toast.makeText(parent.getContext(), "Visar endast Stadsbanor", Toast.LENGTH_SHORT).show();
                         sort = "stadsbana";
+                        saveSpinnerState();
                         changeReyclerView();
                         break;
                     case 3:
                         Toast.makeText(parent.getContext(), "Visar endast Racebanor", Toast.LENGTH_SHORT).show();
                         sort = "racebana";
+                        saveSpinnerState();
                         changeReyclerView();
                         break;
                 }
             }
 
+            private void saveSpinnerState() {
+                int Choice = dropdown.getSelectedItemPosition();
+                SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putInt("spinnerState",Choice);
+                prefEditor.commit();
+            }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-                // sometimes you need nothing here
             }
         });
+
+        SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
+        int spinnerValue = sharedPref.getInt("spinnerState",-1);
+        if(spinnerValue != -1)
+            dropdown.setSelection(spinnerValue);
     }
 
     private void changeReyclerView() {
@@ -121,19 +138,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         gpInfo = gson.fromJson(json, gp[].class);
 
         gpinfo = Arrays.asList(gpInfo);
-
-        Log.d(TAG, "onPostExecute: " + sort);
-
-        /*
-        if (sort != null) {
-            for (int i = 1; i < gpinfo.size(); i++) {
-                if (gpinfo.get(i).getTrackType() != sort) {
-                    gpinfo.remove(i);
-                }
-            }
-        }
-
-         */
 
         races = new ArrayList<>();
 
