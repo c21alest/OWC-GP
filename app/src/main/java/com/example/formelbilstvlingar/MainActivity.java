@@ -64,19 +64,19 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                         changeReyclerView();
                         break;
                     case 1:
-                        Toast.makeText(parent.getContext(), "Visar endast Ovalbanor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parent.getContext(), "Visar endast ovalbanor", Toast.LENGTH_SHORT).show();
                         sort = "oval";
                         saveSpinnerState();
                         changeReyclerView();
                         break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Visar endast Stadsbanor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parent.getContext(), "Visar endast stadsbanor", Toast.LENGTH_SHORT).show();
                         sort = "stadsbana";
                         saveSpinnerState();
                         changeReyclerView();
                         break;
                     case 3:
-                        Toast.makeText(parent.getContext(), "Visar endast Racebanor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parent.getContext(), "Visar endast racebanor", Toast.LENGTH_SHORT).show();
                         sort = "racebana";
                         saveSpinnerState();
                         changeReyclerView();

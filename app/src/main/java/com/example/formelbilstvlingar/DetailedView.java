@@ -22,6 +22,8 @@ public class DetailedView extends AppCompatActivity {
     TextView driverAge;
     TextView driverNat;
 
+    TextView driverBio;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class DetailedView extends AppCompatActivity {
         driverAge = findViewById(R.id.driver_age);
         driverNat = findViewById(R.id.driver_nat);
 
+        driverBio = findViewById(R.id.driver_bio);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String gpNameS = extras.getString("gpName");
@@ -53,13 +57,20 @@ public class DetailedView extends AppCompatActivity {
             gpName.setText(gpNameS);
             Picasso.get().load(trackImageS).fit().centerInside().into(trackImage);
             trackName.setText(trackNameS);
-            trackType.setText("Bantyp: " + trackTypeS);
-            trackLength.setText("Banlängd: " + trackLengthS);
+            trackType.setText(trackTypeS);
+            trackLength.setText(trackLengthS);
 
             driverName.setText("P1: " + driverNameS);
             Picasso.get().load(driverImageS).fit().centerInside().into(driverImage);
-            driverAge.setText("Ålder: " + driverAgeS);
-            driverNat.setText("Nationalitet: " + driverNatS);
+            driverAge.setText(driverAgeS);
+            driverNat.setText(driverNatS);
+
+            String bioText = "Mitt namn är " + driverNameS + " och jag är " + driverAgeS + " år gammal och är född i " +
+                    driverNatS + ". Jag har alltid tyckt om att köra formelbilar och år 2021 vann jag bland annat " +
+                    gpNameS + " som körs på banan " + trackNameS + ", en " + trackLengthS + " meter lång " + trackTypeS + ".";
+
+            driverBio.setText(bioText);
+
         }
     }
 }
