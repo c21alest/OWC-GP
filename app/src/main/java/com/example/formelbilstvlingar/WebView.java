@@ -17,6 +17,7 @@ public class WebView extends AppCompatActivity {
         myWebView = findViewById(R.id.webview);
         myWebView.getSettings().setJavaScriptEnabled(true);
 
+        // Visar lokal html fil
         myWebView.loadUrl("file:///android_asset/about.html");
     }
 }

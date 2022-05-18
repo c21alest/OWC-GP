@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Sätter de olika filter som finns möjligt i dropdownen
         Spinner dropdown = findViewById(R.id.sort);
         String[] dropdownList = new String[]{"Alla", "Ovalbana", "Stadsbana", "Racebana"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropdownList);
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                // Olika saker pga alternativ i dropdown
                 switch (position) {
                     case 0:
                         Toast.makeText(parent.getContext(), "Visar alla", Toast.LENGTH_SHORT).show();
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 }
             }
 
+            // Shared preferences för att bevara det filter som valdes
             private void saveSpinnerState() {
                 int Choice = dropdown.getSelectedItemPosition();
                 SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
@@ -98,12 +100,14 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             }
         });
 
+        // Ställer in sparat filter i on create
         SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
         int spinnerValue = sharedPref.getInt("spinnerState",-1);
         if(spinnerValue != -1)
             dropdown.setSelection(spinnerValue);
     }
 
+    // Startar JsonTask
     private void changeReyclerView() {
         new JsonTask(this).execute(JSON_URL);
     }
@@ -119,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            // När Ändra text väljs i menyn skapas en ny intent
+            // När Om Appen väljs i menyn skapas en ny intent
             case R.id.about:
                 Intent intentWeb = new Intent(MainActivity.this, WebView.class);
                 startActivity(intentWeb);
@@ -188,20 +192,17 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
     @Override
     public void onButtonClick(int position, ArrayList<String> howMany) {
-        Log.d(TAG, "onButtonClick: " + gpinfo.get(position).getGpName());
-        Log.d(TAG, "onButtonClick: " + howMany);
-        Log.d(TAG, "onButtonClick: " + position);
 
         String Target = howMany.get(position);
 
-        Log.d(TAG, "onButtonClick: Target: " + Target);
-
+        // Räknar ut rätt position ifall att ett filter tagit bort objekt
         for (int i = 0; i < gpinfo.size(); i++) {
             if (gpinfo.get(i).getID() == Target) {
                 newPosition = i;
             }
         }
 
+        // Skapar och skickar intent
         Intent intent = new Intent(MainActivity.this, DetailedView.class);
 
         String driverAge = String.valueOf(gpinfo.get(newPosition).getAuxdata().getAge());
