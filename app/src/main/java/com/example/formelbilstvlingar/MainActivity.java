@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropdownList);
         dropdown.setAdapter(adapter);
 
-        gpinfo = null;
-
         // Skapar en recycler view instans
         myRecyclerView = findViewById(R.id.recycler_view);
         // Optimerings parameter
