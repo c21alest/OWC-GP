@@ -53,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, dropdownList);
         dropdown.setAdapter(adapter);
 
+        gpinfo = null;
+
+        // Skapar en recycler view instans
+        myRecyclerView = findViewById(R.id.recycler_view);
+        // Optimerings parameter
+        myRecyclerView.setHasFixedSize(true);
+
+        myLayoutManager = new LinearLayoutManager(this);
+        myRecyclerView.setLayoutManager(myLayoutManager);
+
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -143,48 +153,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         gpinfo = Arrays.asList(gpInfo);
 
-        races = new ArrayList<>();
-
-        /*
-        // För test endast
-        localTest = new ArrayList<>();
-        localTest.add("Rad 1");
-        localTest.add("Rad 2");
-        localTest.add("Rad 3");
-        localTest.add("Rad 4");
-        localTest.add("Rad 5");
-         */
-
-        /*
-        // Funktion som lägger till varje gson objekt i en array
-        for (int i = 0; i < gpInfo.length; i++) {
-            String id = gpInfo[i].getID();
-            races.add(id);
-            String name = gpInfo[i].getTrackName();
-            races.add(name);
-            String company = gpInfo[i].getGpName();
-            races.add(company);
-            String location = gpInfo[i].getLocation();
-            races.add(location);
-            String category = gpInfo[i].getTrackType();
-            races.add(category);
-            int TrackLength = gpInfo[i].getTrackLength();
-            races.add(String.valueOf(TrackLength));
-            String img = gpInfo[i].getAuxdata().getImg();
-            races.add(img);
-            String ow21 = gpInfo[i].getAuxdata().getOw21();
-            races.add(ow21);
-            races.add("\n");
-        }
-         */
-
-        // Skapar en recycler view instans
-        myRecyclerView = findViewById(R.id.recycler_view);
-        // Optimerings parameter
-        myRecyclerView.setHasFixedSize(true);
-
-        myLayoutManager = new LinearLayoutManager(this);
-        myRecyclerView.setLayoutManager(myLayoutManager);
         myAdapter = new MainAdapter(gpinfo, this, sort);
         myRecyclerView.setAdapter(myAdapter);
 
