@@ -1,13 +1,9 @@
 package com.example.formelbilstvlingar;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,10 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,47 +27,47 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private static final String TAG = "==>";
 
     // Skapar array som kommer från main activity
-    List<gp> Races;
-    List<gp> RacesSorted;
-    ArrayList<String> Choosen;
+    List<gp> races;
+    List<gp> racesSorted;
+    ArrayList<String> choosen;
     public MainAdapter(List<gp> races, OnButtonListner onButtonListner, String sort) {
         this.myoOnButtonListner = onButtonListner;
     }
 
     public void setFilter() {
-        if (Races != null) {
-            RacesSorted = new ArrayList<>(Races);
-            Choosen = new ArrayList<>();
+        if (races != null) {
+            racesSorted = new ArrayList<>(races);
+            choosen = new ArrayList<>();
 
             // Raderar de värden som inte ska visas utifrån dropdown filter
             int indexToDelete = 0;
-            for (int i = 0; i < Races.size(); i++) {
+            for (int i = 0; i < races.size(); i++) {
                 // Kollar typen på banan i varje index
-                String trackType = Races.get(i).getTrackType();
+                String trackType = races.get(i).getTrackType();
 
                 // Om bantyp ska visas i filter ökas indexToDelete för att den inte ska radera denna
                 if (Objects.equals(trackType, sortItems)) {
                     indexToDelete++;
                     Log.d(TAG, "MainAdapter: " + trackType);
-                    Choosen.add(Races.get(i).getID());
+                    choosen.add(races.get(i).getID());
                     showItem = true;
                 }
                 // Om sortItems är null betyder det att filtret ska visa allt
                 else if (sortItems == null) {
-                    Choosen.add(Races.get(i).getID());
+                    choosen.add(races.get(i).getID());
                     showItem = true;
                 }
                 // Om inte bantypen stämde överens med filter tas den bort
                 else {
                     // Kan inte radera i (for loop) eftersom RacesSorted alltid kommer minskas i storlek!
-                    RacesSorted.remove(indexToDelete);
+                    racesSorted.remove(indexToDelete);
                 }
             }
         }
     }
 
     public void setRaces(List<gp> races, String sort) {
-        Races = races;
+        this.races = races;
         sortItems = sort;
         setFilter();
     }
@@ -89,19 +82,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
-        holder.title.setText(RacesSorted.get(position).getGpName());
-        Picasso.get().load(RacesSorted.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
-        holder.trackName.setText(RacesSorted.get(position).getTrackName());
-        trackInfo = "Typ: " + RacesSorted.get(position).getTrackType();
-        trackInfo += " Längd: " + RacesSorted.get(position).getTrackLength() + " meter";
+        holder.title.setText(racesSorted.get(position).getGpName());
+        Picasso.get().load(racesSorted.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
+        holder.trackName.setText(racesSorted.get(position).getTrackName());
+        trackInfo = "Typ: " + racesSorted.get(position).getTrackType();
+        trackInfo += " Längd: " + racesSorted.get(position).getTrackLength() + " meter";
         holder.trackInfo.setText(trackInfo);
-        holder.gpWinner.setText(RacesSorted.get(position).getAuxdata().getOw21());
+        holder.gpWinner.setText(racesSorted.get(position).getAuxdata().getOw21());
 
     }
 
     @Override
     public int getItemCount() {
-        return RacesSorted == null ? 0 : RacesSorted.size();
+        // Om raceSorted är null returera 0 annars värdet
+        return racesSorted == null ? 0 : racesSorted.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -129,7 +123,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            onButtonListner.onButtonClick(getAbsoluteAdapterPosition(), Choosen);
+            onButtonListner.onButtonClick(getAbsoluteAdapterPosition(), choosen);
         }
     }
     public interface OnButtonListner{

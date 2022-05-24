@@ -130,7 +130,7 @@ du väljer oval kommer det att se ut likt bilden nedan:</p>
 <img src="gif.gif" width="40%">
 
 # Lösning
-## Recycler view på Förstasidan
+## Recycler viewn på Förstasidan
 För att visa allt innehåll på förstasidan används en Recycler View i kombination med Card View, där Recycler Viewn
 visar upp allt innehåll som finns i JSON Datan och Card Viewn är en typ av styling från ett externt bibliotek.
 
@@ -190,3 +190,90 @@ Sedan gör notifyDataSetChanged att adaptern blir notiferad om att den ska uppda
     }
 ```
 _Figur 2.3 Kod för att uppdatera Recycler Viewn_
+
+## Reycler View Adapter och View Holder
+När man har instansierat recycler viewn behöver adaptern skapas. 
+Detta görs i en egen klass där tre huvudsakliga metoder skapas nämligen onCreateViewHolder, onBindViewHolder, getItemCount. 
+Där onCreateViewHolder just skapar en view holder så länge ingen annan existerar. 
+Och onBindViewHolder tar hand om de olika vyerna som skapas, en recycler view har i uppgift att vara ett mer effektiv sätt att 
+hantera vyer genom att återanvända dem och inte visa alla samtidigt, just för att spara minne, och denna metod hanterar dessa vyer. 
+Metoden getItemCount är simpel och berättar just hur många objekt som finns. I dessa olika metoder kan man sedan specificera vad som 
+exakt ska hända.
+
+```
+    @NonNull
+    @Override
+    public MainAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Skapar en ny view för list_items som används för att presentera innehåller i recycler view
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        // Om raceSorted är null returera 0 annars värdet
+        return racesSorted == null ? 0 : racesSorted.size();
+    }
+```
+
+_Figur 2.3 Kod för Recycler View Adaptern_
+
+Och slutligen skapas View Holdern:
+
+```
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView textD;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            // Kopplar variabel mot id i en layout
+            textD = itemView.findViewById(R.id.display_text);
+        }
+    }
+```
+_Figur 2.4 Kod för View Holder_
+
+## Innehållet i Recycler Viewn
+Som tidigare beskrivit är det onBindViewHolder som bestämmer vad för data som ska visas. Just för denna uppgift används den kod som syns
+i figur 2.5. Här kan man se att texten sätts för en mängd olika textviews, dessa textviews är referaerade i View Holdern som syns i figur 2.6.
+Dessutom används biblioteket Picasso som gör det möjligt att visa bilderna från en url. Och med hjälp av ett par olika paramterar kan 
+måtten bestämmas.
+
+```
+    @Override
+    public void onBindViewHolder(@NonNull MainAdapter.ViewHolder holder, int position) {
+        holder.title.setText(racesSorted.get(position).getGpName());
+        Picasso.get().load(racesSorted.get(position).getAuxdata().getImg()).resize(0, 300).into(holder.trackOverview);
+        holder.trackName.setText(racesSorted.get(position).getTrackName());
+        trackInfo = "Typ: " + racesSorted.get(position).getTrackType();
+        trackInfo += " Längd: " + racesSorted.get(position).getTrackLength() + " meter";
+        holder.trackInfo.setText(trackInfo);
+        holder.gpWinner.setText(racesSorted.get(position).getAuxdata().getOw21());
+
+    }
+```
+_Figur 2.5 kod för widgets_
+
+```
+        public ViewHolder(@NonNull View itemView, OnButtonListner onButtonListner) {
+            super(itemView);
+
+            // Kopplar variabel mot id i en layout
+            title = itemView.findViewById(R.id.title);
+            trackName = itemView.findViewById(R.id.track_name);
+            trackInfo = itemView.findViewById(R.id.track_info);
+            gpWinner = itemView.findViewById(R.id.winner_name);
+            trackOverview = (ImageView) itemView.findViewById(R.id.track_overview);
+            this.onButtonListner = onButtonListner;
+
+            itemView.setOnClickListener(this);
+        }
+```
+_Figur 2.6 Kod för TextViews_
