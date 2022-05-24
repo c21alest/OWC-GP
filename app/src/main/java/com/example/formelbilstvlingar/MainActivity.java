@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private static final String TAG = "==>";
 
     RecyclerView myRecyclerView;
-    RecyclerView.Adapter myAdapter;
-    RecyclerView.LayoutManager myLayoutManager;
+    MainAdapter myAdapter;
+    LinearLayoutManager myLayoutManager;
 
     ArrayList<String> races;
     ArrayList<String> localTest;
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
+        myAdapter = new MainAdapter(gpinfo, this, sort);
+        myRecyclerView.setAdapter(myAdapter);
 
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         gpinfo = Arrays.asList(gpInfo);
 
-        myAdapter = new MainAdapter(gpinfo, this, sort);
-        myRecyclerView.setAdapter(myAdapter);
+        myAdapter.setRaces(gpinfo, sort);
+        myAdapter.notifyDataSetChanged();
 
     }
 

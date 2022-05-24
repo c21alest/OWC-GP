@@ -38,36 +38,45 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     List<gp> RacesSorted;
     ArrayList<String> Choosen;
     public MainAdapter(List<gp> races, OnButtonListner onButtonListner, String sort) {
-        Races = races;
-        sortItems = sort;
-        RacesSorted = new ArrayList<>(Races);
-        Choosen = new ArrayList<>();
+        this.myoOnButtonListner = onButtonListner;
+    }
 
-        // Raderar de värden som inte ska visas utifrån dropdown filter
-        int indexToDelete = 0;
-        for (int i = 0; i < Races.size(); i++) {
-            // Kollar typen på banan i varje index
-            String trackType = Races.get(i).getTrackType();
+    public void setFilter() {
+        if (Races != null) {
+            RacesSorted = new ArrayList<>(Races);
+            Choosen = new ArrayList<>();
 
-            // Om bantyp ska visas i filter ökas indexToDelete för att den inte ska radera denna
-            if (Objects.equals(trackType, sortItems)) {
-                indexToDelete++;
-                Log.d(TAG, "MainAdapter: " + trackType);
-                Choosen.add(Races.get(i).getID());
-                showItem = true;
-            }
-            // Om sortItems är null betyder det att filtret ska visa allt
-            else if (sortItems == null) {
-                Choosen.add(Races.get(i).getID());
-                showItem = true;
-            }
-            // Om inte bantypen stämde överens med filter tas den bort
-            else {
-                // Kan inte radera i (for loop) eftersom RacesSorted alltid kommer minskas i storlek!
-                RacesSorted.remove(indexToDelete);
+            // Raderar de värden som inte ska visas utifrån dropdown filter
+            int indexToDelete = 0;
+            for (int i = 0; i < Races.size(); i++) {
+                // Kollar typen på banan i varje index
+                String trackType = Races.get(i).getTrackType();
+
+                // Om bantyp ska visas i filter ökas indexToDelete för att den inte ska radera denna
+                if (Objects.equals(trackType, sortItems)) {
+                    indexToDelete++;
+                    Log.d(TAG, "MainAdapter: " + trackType);
+                    Choosen.add(Races.get(i).getID());
+                    showItem = true;
+                }
+                // Om sortItems är null betyder det att filtret ska visa allt
+                else if (sortItems == null) {
+                    Choosen.add(Races.get(i).getID());
+                    showItem = true;
+                }
+                // Om inte bantypen stämde överens med filter tas den bort
+                else {
+                    // Kan inte radera i (for loop) eftersom RacesSorted alltid kommer minskas i storlek!
+                    RacesSorted.remove(indexToDelete);
+                }
             }
         }
-        this.myoOnButtonListner = onButtonListner;
+    }
+
+    public void setRaces(List<gp> races, String sort) {
+        Races = races;
+        sortItems = sort;
+        setFilter();
     }
 
     @NonNull
@@ -92,7 +101,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return RacesSorted.size();
+        return RacesSorted == null ? 0 : RacesSorted.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
