@@ -97,6 +97,7 @@ för att skapa dessa funktioner.
 ]
 ```
 URL: https://mobprog.webug.se/json-api?login=c21alest
+
 _Figur 1.1 JSON Data_
 
 #Förklaring
@@ -128,4 +129,42 @@ du väljer oval kommer det att se ut likt bilden nedan:</p>
 
 <img src="gif.gif" width="40%">
 
+#Lösning
+## Recycler view på Förstasidan
+För att visa allt innehåll på förstasidan används en Recycler View i kombination med Card View, där Recycler Viewn
+visar upp allt innehåll som finns i JSON Datan och Card Viewn är en typ av styling från ett externt bibliotek.
 
+En recycler view gör det möjligt att dynamiskt visa innehåll. Det vill säga att presentera data oberoende av dess längd och storlek. 
+För att skapa en recycler view krävs ett antal olika komponenter, där de största är en adapter, view holder och en layout manager. 
+Adaptern är den huvudsakliga komponenten som presenterar all data medan en view holder tar hand om varje individuellt element medan 
+layout managern arrangerar alla dessa element.
+
+Först av allt skapades en instans av dessa komponenter, kod för detta syns nedan. Man börjar med att skapa de olika variablerna. 
+myAdapter blir kopplat mot MainAdapter eftersom java redan vet att det kommer vara en recycler view.
+När detta är gjort länkas recyclerviewn mot ett id i layouten där datan kan presenteras. Efter det länkas layout managern till den 
+tidigare variabeln som skapades. Sen skapas och kopplas adaptern och här specifiseras den data vi vill skicka med, i detta fall kommer en list
+som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar man både adaptern och layout managern till recycler viewn.
+
+```
+    RecyclerView myRecyclerView;
+    MainAdapter myAdapter;
+    LinearLayoutManager myLayoutManager;
+    
+    List<gp> gpinfo;
+    private gp[] gpInfo;
+    
+    (...)
+    
+        // Skapar en recycler view instans
+        myRecyclerView = findViewById(R.id.recycler_view);
+        // Optimerings parameter
+        myRecyclerView.setHasFixedSize(true);
+
+        myLayoutManager = new LinearLayoutManager(this);
+        myRecyclerView.setLayoutManager(myLayoutManager);
+        myAdapter = new MainAdapter(gpinfo, this, sort);
+        myRecyclerView.setAdapter(myAdapter);
+```
+_Figur 2.2 Kod för att instansera en Recycler View och dess komponenter_
+
+Men nu har gpinfo som skickas med i adaptern bara deklareats men aldrig initiseras med någon data

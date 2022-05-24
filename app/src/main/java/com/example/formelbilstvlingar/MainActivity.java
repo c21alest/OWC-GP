@@ -33,10 +33,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     MainAdapter myAdapter;
     LinearLayoutManager myLayoutManager;
 
-    ArrayList<String> races;
-    ArrayList<String> localTest;
     List<gp> gpinfo;
-
     private gp[] gpInfo;
 
     String sort;
