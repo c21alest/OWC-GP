@@ -167,4 +167,26 @@ som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar 
 ```
 _Figur 2.2 Kod för att instansera en Recycler View och dess komponenter_
 
-Men nu har gpinfo som skickas med i adaptern bara deklareats men aldrig initiseras med någon data
+Men nu har gpinfo som skickas med i adaptern bara deklareats men aldrig initiseras med någon data därför kommer recycler viewn att vara tom.
+Och för att lägga in data i gpinfo görs detta efter att JsonTask är klar, vilket innebär att OnPostExecute kommer att körs. Där kan vi alltså
+använda oss av en setter och funktionen notifyDataSetChanged för att uppdatera information i recycler viewn, kod för detta syns nedan. Settern
+gör just vad det låter som alltså att sätta ett värde på datan, alltså som en transportväg för att skicka data ifrån mainactivity till mainadapter.
+Sedan gör notifyDataSetChanged att adaptern blir notiferad om att den ska uppdatera recycler viewn.
+
+```
+    @Override
+    public void onPostExecute(String json) {
+        Log.d("==>", json);
+
+        // Skapar gson instans från json fil och mountain klass
+        Gson gson = new Gson();
+        gpInfo = gson.fromJson(json, gp[].class);
+
+        gpinfo = Arrays.asList(gpInfo);
+
+        myAdapter.setRaces(gpinfo, sort);
+        myAdapter.notifyDataSetChanged();
+
+    }
+```
+_Figur 2.3 Kod för att uppdatera Recycler Viewn_
