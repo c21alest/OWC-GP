@@ -100,7 +100,7 @@ URL: https://mobprog.webug.se/json-api?login=c21alest
 
 _Figur 1.1 JSON Data_
 
-#Förklaring
+# Förklaring
 ## Förstasidan
 Varje gång du öppnar appen kommer ett antal race att dyka upp. Vad som visas beror på vilken
 filtrering du gjorde senast du stängde appen eftersom detta sparas. Du kan alltid byta detta genom dropdownen som
@@ -129,7 +129,7 @@ du väljer oval kommer det att se ut likt bilden nedan:</p>
 
 <img src="gif.gif" width="40%">
 
-#Lösning
+# Lösning
 ## Recycler view på Förstasidan
 För att visa allt innehåll på förstasidan används en Recycler View i kombination med Card View, där Recycler Viewn
 visar upp allt innehåll som finns i JSON Datan och Card Viewn är en typ av styling från ett externt bibliotek.
