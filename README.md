@@ -130,7 +130,7 @@ du väljer oval kommer det att se ut likt bilden nedan:</p>
 <img src="gif.gif" width="40%">
 
 # Lösning
-## Recycler viewn på Förstasidan
+## Recycler viewn på förstasidan
 För att visa allt innehåll på förstasidan används en Recycler View i kombination med Card View, där Recycler Viewn
 visar upp allt innehåll som finns i JSON Datan och Card Viewn är en typ av styling från ett externt bibliotek.
 
@@ -141,7 +141,7 @@ layout manager arrangerar alla dessa element.
 
 Först av allt skapades en instans av dessa komponenter, kod för detta syns nedan. Man börjar med att skapa de olika variablerna. 
 myAdapter blir kopplat mot MainAdapter eftersom java redan vet att det kommer vara en recycler view.
-När detta är gjort länkas recyclerviewn mot ett id i layouten där datan kan presenteras. Efter det länkas layout managern till den 
+När detta är gjort länkas recycler viewn mot ett id i layouten där datan kan presenteras. Efter det länkas layout managern till den 
 tidigare variabeln som skapades. Sen skapas och kopplas adaptern och här specificeras den data vi vill skicka med, i detta fall kommer en list
 som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar man både adaptern och layout managern till recycler viewn.
 
@@ -165,7 +165,7 @@ som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar 
         myAdapter = new MainAdapter(gpinfo, this, sort);
         myRecyclerView.setAdapter(myAdapter);
 ```
-_Figur 2.2 Kod för att instansera en Recycler View och dess komponenter_
+_Figur 2.1 Kod för att instansiera en Recycler View och dess komponenter_
 
 Men nu har gpinfo som skickas med i adaptern bara deklarerats men aldrig initieras med någon data därför kommer recycler viewn att vara tom.
 Och för att lägga in data i gpinfo görs detta efter att JsonTask är klar, vilket innebär att OnPostExecute kommer att körs. Där kan vi alltså
@@ -189,10 +189,10 @@ Sedan gör notifyDataSetChanged att adaptern blir notifierad om att den ska uppd
 
     }
 ```
-_Figur 2.3 Kod för att uppdatera Recycler Viewn_
+_Figur 2.2 Kod för att uppdatera Recycler Viewn_
 
 Det finns också en java klass men olika setters för varje sträng i JSON filen som senare kommer användas av gson
-för att skapa objekt, kod för detta syns i figur 2.4.
+för att skapa objekt, kod för detta syns i figur 2.3.
 
 ```
 public class gp {
@@ -211,7 +211,7 @@ public class gp {
     }
 
 ```
-_Figur 2.4 Kod för att hantera JSON i objekt_
+_Figur 2.3 Kod för att hantera JSON i objekt_
 
 ## Reycler View Adapter och View Holder
 När man har instansierat recycler viewn behöver adaptern skapas. 
@@ -454,7 +454,7 @@ _Figur 6.1 Kod för OnButtonListener i adapter_
     }
 }
 ```
-_Figur 6.1 OnButtonListner i MainActivity_
+_Figur 6.2 OnButtonListner i MainActivity_
 
 ## WebView - Om sidan
 Appen består även av en simpel Om sida som är i form av en WebView. När menyn Om appen klickas startas en intent som tar en
