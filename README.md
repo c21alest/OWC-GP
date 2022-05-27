@@ -2,7 +2,7 @@
 Denna app är slutprojektet i kursen Programmering av mobila applikationer G1F, 7,5 hp. 
 Namnet på appen är formelbilstävlingar, just eftersom den har i uppgift att visa information om några av de största tävlingarna. 
 Appen består till mestadels av en Recycler View som får sin data från JSON (figur 1.1). Reycler Viewns innehåll består av 
-Card Views som aggerar knappar och vid klick tar en vidare till en mer detaljerad vy som är en ny aktivitet som skapas utifrån en 
+Card Views som agerar knappar och vid klick tar en vidare till en mer detaljerad vy som är en ny aktivitet som skapas utifrån en 
 intent med intentdata (extras). Även sidan i menyn som kallas sig för om appen är skapad med hjälp av en intent och en WebView. 
 Nedan följer först en mer detaljerad beskrivning av applikationens funktioner och sedan en beskrivning av vad för kod som använts 
 för att skapa dessa funktioner.
@@ -118,7 +118,7 @@ se en bild på föraren som du inte kunde i tidigare vy.</p>
 
 
 ## Filter
-<p>Om du önskar att filtrera racen är det möjligt med dropdownen. Du har där 3 alternativ, antingen visas
+<p>Om du önskar att filtrera racen är det möjligt med dropdown. Du har där 3 alternativ, antingen visas
 bara ovalbanor, stadsbanor, eller racebanor. När du klickar på någon av dessa kommer innehållet att uppdateras. Om
 du väljer oval kommer det att se ut likt bilden nedan:</p>
 
@@ -137,12 +137,12 @@ visar upp allt innehåll som finns i JSON Datan och Card Viewn är en typ av sty
 En recycler view gör det möjligt att dynamiskt visa innehåll. Det vill säga att presentera data oberoende av dess längd och storlek. 
 För att skapa en recycler view krävs ett antal olika komponenter, där de största är en adapter, view holder och en layout manager. 
 Adaptern är den huvudsakliga komponenten som presenterar all data medan en view holder tar hand om varje individuellt element medan 
-layout managern arrangerar alla dessa element.
+layout manager arrangerar alla dessa element.
 
 Först av allt skapades en instans av dessa komponenter, kod för detta syns nedan. Man börjar med att skapa de olika variablerna. 
 myAdapter blir kopplat mot MainAdapter eftersom java redan vet att det kommer vara en recycler view.
 När detta är gjort länkas recyclerviewn mot ett id i layouten där datan kan presenteras. Efter det länkas layout managern till den 
-tidigare variabeln som skapades. Sen skapas och kopplas adaptern och här specifiseras den data vi vill skicka med, i detta fall kommer en list
+tidigare variabeln som skapades. Sen skapas och kopplas adaptern och här specificeras den data vi vill skicka med, i detta fall kommer en list
 som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar man både adaptern och layout managern till recycler viewn.
 
 ```
@@ -167,11 +167,11 @@ som JsonTask skapats (pratas om längre ner) att skickas med. Slutligen kopplar 
 ```
 _Figur 2.2 Kod för att instansera en Recycler View och dess komponenter_
 
-Men nu har gpinfo som skickas med i adaptern bara deklareats men aldrig initiseras med någon data därför kommer recycler viewn att vara tom.
+Men nu har gpinfo som skickas med i adaptern bara deklarerats men aldrig initieras med någon data därför kommer recycler viewn att vara tom.
 Och för att lägga in data i gpinfo görs detta efter att JsonTask är klar, vilket innebär att OnPostExecute kommer att körs. Där kan vi alltså
 använda oss av en setter och funktionen notifyDataSetChanged för att uppdatera information i recycler viewn, kod för detta syns nedan. Settern
-gör just vad det låter som alltså att sätta ett värde på datan, alltså som en transportväg för att skicka data ifrån mainactivity till mainadapter.
-Sedan gör notifyDataSetChanged att adaptern blir notiferad om att den ska uppdatera recycler viewn.
+gör just vad det låter som alltså att sätta ett värde på datan, alltså som en transport väg för att skicka data ifrån MainActivity till main adapter.
+Sedan gör notifyDataSetChanged att adaptern blir notifierad om att den ska uppdatera recycler viewn.
 
 ```
     @Override
@@ -264,8 +264,8 @@ _Figur 3.2 Kod för View Holder_
 
 ## Innehållet i Recycler Viewn
 Som tidigare beskrivit är det onBindViewHolder som bestämmer vad för data som ska visas. Just för denna uppgift används den kod som syns
-i figur 2.5. Här kan man se att texten sätts för en mängd olika textviews, dessa textviews är referaerade i View Holdern som syns i figur 2.6.
-Dessutom används biblioteket Picasso som gör det möjligt att visa bilderna från en url. Och med hjälp av ett par olika paramterar kan 
+i figur 2.5. Här kan man se att texten sätts för en mängd olika textviews, dessa textviews är refererade i View Holdern som syns i figur 2.6.
+Dessutom används biblioteket Picasso som gör det möjligt att visa bilderna från en url. Och med hjälp av ett par olika parametrar kan 
 måtten bestämmas.
 
 ```
@@ -301,10 +301,10 @@ _Figur 4.1 Kod för widgets_
 _Figur 4.2 Kod för TextViews_
 
 ## Filter
-Appen har också möjligheten att applicaera ett filter, vilket innebär att enbart oval, race eller stadsbanor visas och de andra filtreras ut.
-Denna processen var lite mer utamanande och krävrdes att ett värde för vad som ska sorteras skickas med i adaptern. Lösningen är att en så kallad spinner används
-som kan besrkivas som en dropdown, koden för denna syns i figur 5.1. Den har sedan en så kallad switch som kollar efter olika händelser som i detta fallet är
-de olika alternativen (figur 5.2), och när något alternativ väljs ändras värdet på en variabel. Sedan körs en annan funkation som kör JsonTask igen och slutligen notifierar adaptern
+Appen har också möjligheten att applicera ett filter, vilket innebär att enbart oval, race eller stadsbanor visas och de andra filtreras ut.
+Denna processen var lite mer utmanade och krävdes att ett värde för vad som ska sorteras skickas med i adaptern. Lösningen är att en så kallad spinner används
+som kan beskrivas som en dropdown, koden för denna syns i figur 5.1. Den har sedan en så kallad switch som kollar efter olika händelser som i detta fallet är
+de olika alternativen (figur 5.2), och när något alternativ väljes ändras värdet på en variabel. Sedan körs en annan funktion som kör JsonTask igen och slutligen notifierar adaptern
 om ny data. Sedan används shared preferences för att bevara valet trots att appen avslutas, detta syns i figur 5.3.
 
 ```
@@ -358,14 +358,14 @@ _Figur 5.2 Kod för switch till dropdown_
 _Figur 5.3 Kod för shared preferences_
 
 ### Filter i adapter
-Vad som möjligör att filtret fungerar, och inte bara att ett värde sätts som beskrivit tidigare, syns i figuren 6.1 nedan. Funktionen setFilter använder sig av
-den tidigare sort variabeln men som nu istället benäms sortItem. Vad som händer är att denna funktion körs så länge inte data är tom. Den data finns så ittererar den
+Vad som möjliggör att filtret fungerar, och inte bara att ett värde sätts som beskrivit tidigare, syns i figuren 6.1 nedan. Funktionen setFilter använder sig av
+den tidigare sort variabeln men som nu istället benämns sortItem. Vad som händer är att denna funktion körs så länge inte data är tom. Den data finns så ittererar den
 genom varje objekt som beskrivs av listans längd. Och om ett visst värde i den positionen instämmer med filtret behålls den. Ett exempel är om filter oval skulle användas
 då jämför denna funktionen strängen oval med vad som finns i getTrackType som antingen kan vara oval, racebana, eller stadsbana. Och om detta är sant kommer den att bevaras
 efter den ska visas. Alla andra som inte stämmer överens tas bort från listan. Men eftersom inte positionen och indexen kommer stämma efter varje ittering pågrund
 av att listan blir mindre håller integer variabeln indexToDelete koll på detta. Efter detta steg kommer vi ha en ny lista som bara innehåller den önskade datan.
-Samtidigt så formas en annan array som kommer att berätta för den senare NnButtonListner vad för objekt som finns kvar i listan efter att filtret har gjorts, detta
-behövs eftersom klick lystnaren finns i en annan java klass, nämligen MainActivity.
+Samtidigt så formas en annan array som kommer att berätta för den senare OnButtonListener vad för objekt som finns kvar i listan efter att filtret har gjorts, detta
+behövs eftersom klick lyssnaren finns i en annan java klass, nämligen MainActivity.
 
 ```
     public void setFilter() {
@@ -403,11 +403,11 @@ behövs eftersom klick lystnaren finns i en annan java klass, nämligen MainActi
 _Figur 5.4 Kod för filter i adapter_
 
 ## onButtonClick
-För att skapa den mer detaljerade vyn finns en OnButtonListner i adpatern och i viewholdern där interfacet syns i figur 6.1 nedan. Med hjälp av denna skapas en
-klick lysstnare i varje Recycler View som sedan triggar funktionen onButtonClick i MainActivity. datan som skickas med är postitionen för att veta exakt vilket
+För att skapa den mer detaljerade vyn finns en OnButtonListener i adpatern och i view holdern där interfacet syns i figur 6.1 nedan. Med hjälp av denna skapas en
+klick lyssnare i varje Recycler View som sedan triggar funktionen onButtonClick i MainActivity. datan som skickas med är positionen för att veta exakt vilket
 recyclerview föremål som klickats på, sedan den tidigare beskrivna ArrayListen som beskriver vilka objekt som finns kvar med hjälp av ett unikt ID. Detta ID kan sedan
-jämföras i funktionen i MainActivity som syns i figur 6.2 nedan. Här jämför den alltså om ID:t ska visas med hjälp av den sortade listan. Om det är sant skapas den intent
-som syns nedan. Där skickas all extra data med som inte syndes i de olika reycler view förmålen tidigare.
+jämföras i funktionen i MainActivity som syns i figur 6.2 nedan. Här jämför den alltså om ID:t ska visas med hjälp av den sorterade listan. Om det är sant skapas den intent
+som syns nedan. Där skickas all extra data med som inte syntes i de olika recycler view föremålen tidigare.
 
 ```
         @Override
@@ -419,7 +419,7 @@ som syns nedan. Där skickas all extra data med som inte syndes i de olika reycl
         void onButtonClick(int position, ArrayList<String> howMany);
     }
 ```
-_Figur 6.1 Kod för OnButtonListner i adapter_
+_Figur 6.1 Kod för OnButtonListener i adapter_
 
 ```
     @Override
