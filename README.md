@@ -221,7 +221,7 @@ exakt ska hända.
     }
 ```
 
-_Figur 2.3 Kod för Recycler View Adaptern_
+_Figur 3.1 Kod för Recycler View Adaptern_
 
 Och slutligen skapas View Holdern:
 
@@ -238,7 +238,7 @@ Och slutligen skapas View Holdern:
         }
     }
 ```
-_Figur 2.4 Kod för View Holder_
+_Figur 3.2 Kod för View Holder_
 
 ## Innehållet i Recycler Viewn
 Som tidigare beskrivit är det onBindViewHolder som bestämmer vad för data som ska visas. Just för denna uppgift används den kod som syns
@@ -259,7 +259,7 @@ måtten bestämmas.
 
     }
 ```
-_Figur 2.5 kod för widgets_
+_Figur 4.1 kod för widgets_
 
 ```
         public ViewHolder(@NonNull View itemView, OnButtonListner onButtonListner) {
@@ -276,4 +276,179 @@ _Figur 2.5 kod för widgets_
             itemView.setOnClickListener(this);
         }
 ```
-_Figur 2.6 Kod för TextViews_
+_Figur 4.2 Kod för TextViews_
+
+## Filter
+Appen har också möjligheten att applicaera ett filter, vilket innebär att enbart oval, race eller stadsbanor visas och de andra filtreras ut.
+Denna processen var lite mer utamanande och krävrdes att ett värde för vad som ska sorteras skickas med i adaptern. Lösningen är att en så kallad spinner används
+som kan besrkivas som en dropdown, koden för denna syns i figur 5.1. Den har sedan en så kallad switch som kollar efter olika händelser som i detta fallet är
+de olika alternativen (figur 5.2), och när något alternativ väljs ändras värdet på en variabel. Sedan körs en annan funkation som kör JsonTask igen och slutligen notifierar adaptern
+om ny data. Sedan används shared preferences för att bevara valet trots att appen avslutas, detta syns i figur 5.3.
+
+```
+            // Shared preferences för att bevara det filter som valdes
+            private void saveSpinnerState() {
+                int Choice = dropdown.getSelectedItemPosition();
+                SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
+                SharedPreferences.Editor prefEditor = sharedPref.edit();
+                prefEditor.putInt("spinnerState",Choice);
+                prefEditor.commit();
+            }
+```
+_Figur 5.1 kod för Spinner/Dropdown_
+
+```
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Olika saker pga alternativ i dropdown
+                switch (position) {
+                    case 0:
+                        Toast.makeText(parent.getContext(), "Visar alla", Toast.LENGTH_SHORT).show();
+                        sort = null;
+                        break;
+                    case 1:
+                        Toast.makeText(parent.getContext(), "Visar endast ovalbanor", Toast.LENGTH_SHORT).show();
+                        sort = "oval";
+                        break;
+                    case 2:
+                        Toast.makeText(parent.getContext(), "Visar endast stadsbanor", Toast.LENGTH_SHORT).show();
+                        sort = "stadsbana";
+                        break;
+                    case 3:
+                        Toast.makeText(parent.getContext(), "Visar endast racebanor", Toast.LENGTH_SHORT).show();
+                        sort = "racebana";
+                        break;
+                }
+                saveSpinnerState();
+                changeReyclerView();
+            }
+```
+_Figur 5.2 kod för switch till dropdown_
+
+```
+        // Ställer in sparat filter i on create
+        SharedPreferences sharedPref = getSharedPreferences("dropdown",MODE_PRIVATE);
+        int spinnerValue = sharedPref.getInt("spinnerState",-1);
+        if(spinnerValue != -1)
+            dropdown.setSelection(spinnerValue);
+```
+_Figur 5.3 kod för shared preferences_
+
+### Filter i adapter
+Vad som möjligör att filtret fungerar, och inte bara att ett värde sätts som beskrivit tidigare, syns i figuren 6.1 nedan. Funktionen setFilter använder sig av
+den tidigare sort variabeln men som nu istället benäms sortItem. Vad som händer är att denna funktion körs så länge inte data är tom. Den data finns så ittererar den
+genom varje objekt som beskrivs av listans längd. Och om ett visst värde i den positionen instämmer med filtret behålls den. Ett exempel är om filter oval skulle användas
+då jämför denna funktionen strängen oval med vad som finns i getTrackType som antingen kan vara oval, racebana, eller stadsbana. Och om detta är sant kommer den att bevaras
+efter den ska visas. Alla andra som inte stämmer överens tas bort från listan. Men eftersom inte positionen och indexen kommer stämma efter varje ittering pågrund
+av att listan blir mindre håller integer variabeln indexToDelete koll på detta. Efter detta steg kommer vi ha en ny lista som bara innehåller den önskade datan.
+Samtidigt så formas en annan array som kommer att berätta för den senare NnButtonListner vad för objekt som finns kvar i listan efter att filtret har gjorts, detta
+behövs eftersom klick lystnaren finns i en annan java klass, nämligen MainActivity.
+
+```
+    public void setFilter() {
+        if (races != null) {
+            racesSorted = new ArrayList<>(races);
+            choosen = new ArrayList<>();
+
+            // Raderar de värden som inte ska visas utifrån dropdown filter
+            int indexToDelete = 0;
+            for (int i = 0; i < races.size(); i++) {
+                // Kollar typen på banan i varje index
+                String trackType = races.get(i).getTrackType();
+
+                // Om bantyp ska visas i filter ökas indexToDelete för att den inte ska radera denna
+                if (Objects.equals(trackType, sortItems)) {
+                    indexToDelete++;
+                    Log.d(TAG, "MainAdapter: " + trackType);
+                    choosen.add(races.get(i).getID());
+                    showItem = true;
+                }
+                // Om sortItems är null betyder det att filtret ska visa allt
+                else if (sortItems == null) {
+                    choosen.add(races.get(i).getID());
+                    showItem = true;
+                }
+                // Om inte bantypen stämde överens med filter tas den bort
+                else {
+                    // Kan inte radera i (for loop) eftersom RacesSorted alltid kommer minskas i storlek!
+                    racesSorted.remove(indexToDelete);
+                }
+            }
+        }
+    }
+```
+_Figur 5.4 kod för filter i adapter_
+
+## onButtonClick
+För att skapa den mer detaljerade vyn finns en OnButtonListner i adpatern och i viewholdern där interfacet syns i figur 6.1 nedan. Med hjälp av denna skapas en
+klick lysstnare i varje Recycler View som sedan triggar funktionen onButtonClick i MainActivity. datan som skickas med är postitionen för att veta exakt vilket
+recyclerview föremål som klickats på, sedan den tidigare beskrivna ArrayListen som beskriver vilka objekt som finns kvar med hjälp av ett unikt ID. Detta ID kan sedan
+jämföras i funktionen i MainActivity som syns i figur 6.2 nedan. Här jämför den alltså om ID:t ska visas med hjälp av den sortade listan. Om det är sant skapas den intent
+som syns nedan. Där skickas all extra data med som inte syndes i de olika reycler view förmålen tidigare.
+
+```
+        @Override
+        public void onClick(View view) {
+            onButtonListner.onButtonClick(getAbsoluteAdapterPosition(), choosen);
+        }
+    }
+    public interface OnButtonListner{
+        void onButtonClick(int position, ArrayList<String> howMany);
+    }
+```
+_Figur 6.1 kod för OnButtonListner i adapter_
+
+```
+    @Override
+    public void onButtonClick(int position, ArrayList<String> howMany) {
+
+        String Target = howMany.get(position);
+
+        // Räknar ut rätt position ifall att ett filter tagit bort objekt
+        for (int i = 0; i < gpinfo.size(); i++) {
+            if (gpinfo.get(i).getID() == Target) {
+                newPosition = i;
+            }
+        }
+
+        // Skapar och skickar intent
+        Intent intent = new Intent(MainActivity.this, DetailedView.class);
+
+        String driverAge = String.valueOf(gpinfo.get(newPosition).getAuxdata().getAge());
+        String trackLength = String.valueOf(gpinfo.get(newPosition).getTrackLength());
+
+        intent.putExtra("gpName", gpinfo.get(newPosition).getGpName());
+        intent.putExtra("trackName", gpinfo.get(newPosition).getTrackName());
+        intent.putExtra("trackType", gpinfo.get(newPosition).getTrackType());
+        intent.putExtra("trackLength", trackLength);
+        intent.putExtra("trackImage", gpinfo.get(newPosition).getAuxdata().getImg());
+        intent.putExtra("driverName", gpinfo.get(newPosition).getAuxdata().getOw21());
+        intent.putExtra("driverImage", gpinfo.get(newPosition).getAuxdata().getDimg());
+        intent.putExtra("driverAge", driverAge);
+        intent.putExtra("driverNat", gpinfo.get(newPosition).getAuxdata().getNat());
+
+        startActivity(intent);
+    }
+}
+```
+_Figur 6.1 OnButtonListner i MainActivity_
+
+## WebView - Om sidan
+Appen består även av en simpel Om sida som är i form av en WebView. När menyn Om appen klickas startas en intent som tar en
+vidare till WebView aktiviteten, som just startar en WebView, kod för detta syns nedan. 
+
+```
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_web_view);
+
+        myWebView = findViewById(R.id.webview);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+
+        // Visar lokal html fil
+        myWebView.loadUrl("file:///android_asset/about.html");
+    }
+```
+_Figur 7.1 kod för WebView_
