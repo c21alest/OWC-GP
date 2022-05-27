@@ -191,6 +191,28 @@ Sedan gör notifyDataSetChanged att adaptern blir notiferad om att den ska uppda
 ```
 _Figur 2.3 Kod för att uppdatera Recycler Viewn_
 
+Det finns också en java klass men olika setters för varje sträng i JSON filen som senare kommer användas av gson
+för att skapa objekt, kod för detta syns i figur 2.4.
+
+```
+public class gp {
+    private String ID;
+    @SerializedName("name")
+    private String track_name;
+
+(...)
+
+    public String getID() {
+        return ID;
+    }
+
+    public String getTrackName() {
+        return track_name;
+    }
+
+```
+_Figur 2.4 Kod för att hantera JSON i objekt_
+
 ## Reycler View Adapter och View Holder
 När man har instansierat recycler viewn behöver adaptern skapas. 
 Detta görs i en egen klass där tre huvudsakliga metoder skapas nämligen onCreateViewHolder, onBindViewHolder, getItemCount. 
@@ -259,7 +281,7 @@ måtten bestämmas.
 
     }
 ```
-_Figur 4.1 kod för widgets_
+_Figur 4.1 Kod för widgets_
 
 ```
         public ViewHolder(@NonNull View itemView, OnButtonListner onButtonListner) {
@@ -295,7 +317,7 @@ om ny data. Sedan används shared preferences för att bevara valet trots att ap
                 prefEditor.commit();
             }
 ```
-_Figur 5.1 kod för Spinner/Dropdown_
+_Figur 5.1 Kod för Spinner/Dropdown_
 
 ```
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -324,7 +346,7 @@ _Figur 5.1 kod för Spinner/Dropdown_
                 changeReyclerView();
             }
 ```
-_Figur 5.2 kod för switch till dropdown_
+_Figur 5.2 Kod för switch till dropdown_
 
 ```
         // Ställer in sparat filter i on create
@@ -333,7 +355,7 @@ _Figur 5.2 kod för switch till dropdown_
         if(spinnerValue != -1)
             dropdown.setSelection(spinnerValue);
 ```
-_Figur 5.3 kod för shared preferences_
+_Figur 5.3 Kod för shared preferences_
 
 ### Filter i adapter
 Vad som möjligör att filtret fungerar, och inte bara att ett värde sätts som beskrivit tidigare, syns i figuren 6.1 nedan. Funktionen setFilter använder sig av
@@ -378,7 +400,7 @@ behövs eftersom klick lystnaren finns i en annan java klass, nämligen MainActi
         }
     }
 ```
-_Figur 5.4 kod för filter i adapter_
+_Figur 5.4 Kod för filter i adapter_
 
 ## onButtonClick
 För att skapa den mer detaljerade vyn finns en OnButtonListner i adpatern och i viewholdern där interfacet syns i figur 6.1 nedan. Med hjälp av denna skapas en
@@ -397,7 +419,7 @@ som syns nedan. Där skickas all extra data med som inte syndes i de olika reycl
         void onButtonClick(int position, ArrayList<String> howMany);
     }
 ```
-_Figur 6.1 kod för OnButtonListner i adapter_
+_Figur 6.1 Kod för OnButtonListner i adapter_
 
 ```
     @Override
